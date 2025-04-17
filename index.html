@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: black;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: darkmagenta;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            font-size: 9rem;
+            margin: 0 0 2rem 0;
+            color: transparent;
+            -webkit-text-stroke: 3px darkmagenta;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        h1::before {
+            content: "JAEGROUP";
+            position: absolute;
+            width: 0%;
+            height: 100%;
+            overflow: hidden;
+            color: darkmagenta;
+            border-right: 8px solid darkmagenta;
+            transition: 1s ease-in-out;
+        }
+
+        h1:hover::before {
+            width: 100%;
+            filter: drop-shadow(0 0 25px darkmagenta);
+        }
+
+        .btn {
+            padding: 1.5rem 3rem;
+            font-size: 2rem;
+            background: transparent;
+            color: darkmagenta;
+            border: 3px solid darkmagenta;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn:hover {
+            background: darkmagenta;
+            color: black;
+            box-shadow: 0 0 25px darkmagenta;
+            transform: translateY(-5px);
+        }
+
+        .question {
+            font-size: 4rem;
+            color: transparent;
+            -webkit-text-stroke: 2px darkmagenta;
+            margin-bottom: 2rem;
+            position: relative;
+            text-align: center;
+            transition: all 0.5s ease;
+        }
+
+        .question::before {
+            content: attr(data-text);
+            position: absolute;
+            width: 0%;
+            height: 100%;
+            overflow: hidden;
+            color: darkmagenta;
+            border-right: 8px solid darkmagenta;
+            transition: 1s ease-in-out;
+        }
+
+        .question:hover::before {
+            width: 100%;
+            filter: drop-shadow(0 0 25px darkmagenta);
+        }
+
+        .hidden {
+            opacity: 0;
+            display: none;
+            transition: all 0.5s ease;
+        }
+
+        .visible {
+            opacity: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="initial-screen">
+        <h1 id="title">JAEGROUP</h1>
+        <button class="btn" id="startBtn">START</button>
+    </div>
+
+    <div id="step1" class="hidden">
+        <div class="question" data-text="Are you ready?">Are you ready?</div>
+        <button class="btn" id="yesBtn">Yes</button>
+    </div>
+
+    <div id="step2" class="hidden">
+        <div class="question" data-text="Are you really ready?">Are you really ready?</div>
+        <div class="button-group">
+            <button class="btn" id="reallyReadyBtn">I'm REALLY ready</button>
+            <button class="btn" id="notReadyBtn">No, I'm not</button>
+        </div>
+    </div>
+
+    <div id="finalStep" class="hidden">
+        <div class="question" data-text="CLICK THE BUTTON">CLICK THE BUTTON</div>
+        <button class="btn" onclick="openDownloadLink()"> THE LETTER </button>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const title = document.getElementById('title');
+        const initialScreen = document.getElementById('initial-screen');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const yesBtn = document.getElementById('yesBtn');
+        const reallyReadyBtn = document.getElementById('reallyReadyBtn');
+        const notReadyBtn = document.getElementById('notReadyBtn');
+        const finalStep = document.getElementById('finalStep');
+
+        startBtn.addEventListener('click', () => {
+            initialScreen.classList.add('fade-out');
+            setTimeout(() => {
+                initialScreen.remove();
+                step1.classList.remove('hidden');
+                step1.classList.add('visible');
+            }, 500);
+        });
+
+        yesBtn.addEventListener('click', () => {
+            step1.classList.remove('visible');
+            step1.classList.add('hidden');
+            setTimeout(() => {
+                step1.style.display = 'none';
+                step2.classList.remove('hidden');
+                step2.classList.add('visible');
+            }, 500);
+        });
+
+        reallyReadyBtn.addEventListener('click', () => {
+            step2.classList.remove('visible');
+            step2.classList.add('hidden');
+            setTimeout(() => {
+                step2.style.display = 'none';
+                finalStep.classList.remove('hidden');
+                finalStep.classList.add('visible');
+            }, 500);
+        });
+
+        notReadyBtn.addEventListener('click', () => {
+            step2.classList.remove('visible');
+            step2.classList.add('hidden');
+            setTimeout(() => {
+                step2.style.display = 'none';
+                step1.classList.remove('hidden');
+                step1.classList.add('visible');
+            }, 500);
+        });
+
+        function openDownloadLink() {
+            const driveUrl = "https://drive.google.com/file/d/19S13fg5t2HASRw7s9mam0NyE3sTT0kCz/view?usp=sharing";
+            window.open(driveUrl, '_blank');
+        }
+    </script>
+
+</body>
+</html>
